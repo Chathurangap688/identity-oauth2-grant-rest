@@ -245,10 +245,11 @@ public class RestAuthenticationServiceImpl implements RestAuthenticationService 
                 throw RestAuthUtil.handleClientException(Constants.ErrorMessage.CLIENT_AUTHENTICATOR_NOT_SUPPORTED,
                         authenticator);
             }
+            executeListeners(authContext, Constants.POST_AUTHENTICATION);
             userAuthenticationResponse = buildAuthValidationResponse(authContext, flowIdDO, authnFailDto);
         }
 
-        executeListeners(authContext, Constants.POST_AUTHENTICATION);
+        // executeListeners(authContext, Constants.POST_AUTHENTICATION);
 
         if (authContext.isValidPassword()) {
             CacheBackedFlowIdDAO.getInstance().refreshFlowId(authContext.getFlowIdIdentifier(),
@@ -471,7 +472,9 @@ public class RestAuthenticationServiceImpl implements RestAuthenticationService 
         if (LOG.isDebugEnabled()) {
             LOG.debug("Revolving user identifier to username");
         }
-
+        if (!username.contains("PATRON/")) {
+            username = "PATRON/" + username;
+        }
         HashMap<String, String> params = new HashMap<>();
         if (AuthenticationServiceDataHolder.getInstance().getMultiAttributeLogin().isEnabled(userTenantDomain)) {
             ResolvedUserResult resolvedUserResult =
@@ -641,6 +644,8 @@ public class RestAuthenticationServiceImpl implements RestAuthenticationService 
                 throw RestAuthUtil.handleClientException(Constants.ErrorMessage.CLIENT_LOCKED_ACCOUNT,
                         String.format("Error while checking the account status for the user : %s.",
                                 restContext.getAuthenticatedUser().getUserName()));
+            } else if (message.contains("SHRSS-10000") || message.contains("SHRSS-10001") || message.contains("SL015")) {
+                return true;
             }
             return false;
         }
