@@ -246,10 +246,10 @@ public class RestAuthenticationServiceImpl implements RestAuthenticationService 
                 throw RestAuthUtil.handleClientException(Constants.ErrorMessage.CLIENT_AUTHENTICATOR_NOT_SUPPORTED,
                         authenticator);
             }
+            executeListeners(authContext, Constants.POST_AUTHENTICATION);
             userAuthenticationResponse = buildAuthValidationResponse(authContext, flowIdDO, authnFailDto);
         }
 
-        executeListeners(authContext, Constants.POST_AUTHENTICATION);
 
         if (authContext.isValidPassword()) {
             CacheBackedFlowIdDAO.getInstance().refreshFlowId(authContext.getFlowIdIdentifier(),
