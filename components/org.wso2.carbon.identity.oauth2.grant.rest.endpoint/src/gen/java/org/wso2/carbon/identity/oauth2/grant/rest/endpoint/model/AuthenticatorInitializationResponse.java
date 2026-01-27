@@ -19,6 +19,7 @@
 package org.wso2.carbon.identity.oauth2.grant.rest.endpoint.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
 
@@ -26,6 +27,7 @@ import javax.validation.constraints.*;
 import java.util.Objects;
 import javax.validation.Valid;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class AuthenticatorInitializationResponse  {
   
     private String flowId;

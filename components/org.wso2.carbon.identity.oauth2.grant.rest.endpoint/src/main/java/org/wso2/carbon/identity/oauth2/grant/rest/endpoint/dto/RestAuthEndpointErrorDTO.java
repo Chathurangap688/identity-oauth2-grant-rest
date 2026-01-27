@@ -18,9 +18,12 @@
 
 package org.wso2.carbon.identity.oauth2.grant.rest.endpoint.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  * This DTO class contains a model of Errors.
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class RestAuthEndpointErrorDTO {
 
     private String clientMandatoryParamsEmpty;

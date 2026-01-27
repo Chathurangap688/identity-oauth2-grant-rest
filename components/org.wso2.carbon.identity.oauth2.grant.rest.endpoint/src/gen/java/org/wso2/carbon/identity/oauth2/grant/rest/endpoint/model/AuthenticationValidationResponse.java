@@ -36,6 +36,7 @@ import java.util.Objects;
 import javax.validation.Valid;
 import javax.xml.bind.annotation.*;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class AuthenticationValidationResponse  {
   
     private Boolean isStepSuccess;
