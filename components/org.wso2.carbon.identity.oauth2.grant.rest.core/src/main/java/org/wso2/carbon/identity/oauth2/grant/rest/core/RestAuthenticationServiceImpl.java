@@ -1089,7 +1089,9 @@ public class RestAuthenticationServiceImpl implements RestAuthenticationService 
             ((IdentityEventService) PrivilegedCarbonContext.getThreadLocalCarbonContext().
                     getOSGiService(IdentityEventService.class, null)).handleEvent(event);
         } catch (IdentityEventException e) {
-            LOG.error(e.getCause());
+            if (LOG.isDebugEnabled()) {
+              LOG.debug(e.getMessage(), e);
+            }
             String handlerError = e.getErrorCode() + ";" + e.getMessage() + ";"
                     + Constants.EVENT_HANDLER_ERROR_DESCRIPTION;
             throw RestAuthUtil.handleClientException(handlerError, restAuthenticationContext.getCurrentAuthenticator());
